@@ -84,7 +84,11 @@ Máximo 2 oraciones. Hablas en español.`
     }
 });
 
-// Ruta de prueba para verificar que el servidor está vivo
+// Ruta raíz y health check
+app.get("/", (req, res) => {
+    res.json({ status: "Behind Us proxy activo" });
+});
+
 app.get("/ping", (req, res) => {
     res.json({ status: "Behind Us proxy activo 👾" });
 });

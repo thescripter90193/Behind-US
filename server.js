@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 // ⚠️ Pon tu API Key de DeepSeek aquí (o en variable de entorno)
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || "sk-b49109a7cb9945029f00fb05f590ee3a";
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 
 // ⚠️ Clave secreta para que solo Roblox pueda usar tu proxy
 const ROBLOX_SECRET = process.env.ROBLOX_SECRET || "misisipi123";

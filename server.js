@@ -51,6 +51,9 @@ Máximo 2 oraciones. Hablas en español.`
     const systemPrompt = systemPrompts[character] || systemPrompts.default;
 
     try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+
         const response = await fetch("https://api.deepseek.com/chat/completions", {
             method: "POST",
             headers: {
@@ -65,13 +68,15 @@ Máximo 2 oraciones. Hablas en español.`
                 ],
                 max_tokens: 120,
                 temperature: 0.9
-            })
+            }),
+            signal: controller.signal
         });
+        clearTimeout(timeout);
 
         const data = await response.json();
 
         if (data.error) {
-            console.error("DeepSeek error:", data.error);
+            console.error("DeepSeek error:", JSON.stringify(data.error));
             return res.status(500).json({ error: "Error de DeepSeek", detail: data.error });
         }
 
@@ -79,7 +84,7 @@ Máximo 2 oraciones. Hablas en español.`
         return res.json({ reply });
 
     } catch (err) {
-        console.error("Error del servidor:", err);
+        console.error("Error del servidor:", err.message || err);
         return res.status(500).json({ error: "Error interno del servidor" });
     }
 });
